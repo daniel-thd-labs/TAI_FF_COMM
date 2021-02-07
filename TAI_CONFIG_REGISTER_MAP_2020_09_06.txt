@@ -1,0 +1,233 @@
+
+TAI SSL CONFIGURATION REGISTER MAP (2020-09-06)
+----------------------------------------------------------------------------------------------------------------------------
+
+Config_registers[1] = LIBRE
+Config_registers[2] = Set automation index... 0 setall 
+			1  to 127 individual channels,  128 a 139 bank set, 140 all auto mode index 
+			0x80= bank0; 0x81=bank1; 0x82= bank2;0x83= bank3; 	
+			0x84= bank4; 0x85=bank5; 0x86= bank6;0x87= bank7;
+			0x88= bank8; 0x89=bank9; 0x8a= bank10;0x8b= bank11; 
+			0x90= Off
+			0x91= Write
+			0x92= Latch
+			0x93= Read
+			0x94=TRIM Off/LIVE
+			0x95=TRIM Write
+			0x96=TRIM Latch
+			0x97=TRIM Read
+
+Config_registers[3] = 0x80 set all...	automode
+
+Config_registers[4] = Recall_it mode
+Config_registers[5] = Recall_it switch select
+	
+Config_registers[6] = PVCA  count and location
+Config_registers[7] = On stop mode (0x00 =nothing, 0x01=read, 0x02=read trim)
+Config_registers[8] = Master relay bit 0x00 = channel 32=32, 0x01 channel 32=master
+Config_registers[9] = Fader_scaling (HUI MODE) 0x000000nn
+			<nn> =00: pt legacy scale (PT10-)
+			<nn> =01: pt11 scale
+			<nn> =02: pt12+scale
+
+Config_registers[10] = Mix on/off = &  interface type 0xiiii000n
+			<n>= 0: Mix OFF
+			<n>= 1: Mix ON
+
+			<iiii>=0000b: VCA
+			<iiii>=1000b: MF (ultimation)
+			<iiii>=1100b: FF (FlyingFader)
+			<iiii>=0001b: FBSSL
+			<iiii>=0010b: GML		
+
+
+Config_registers[11] = 0x00ii00nn
+Lower nible Csurf mode: (nn)
+ 			<nn>= 0: HUI
+			<nn>= 1: HUI HYBRIDE
+			<nn>= 2: REAPER
+			<nn>= 3: INJEKTOR/UDP PLUGIN
+
+Upper nible communication status (ii) 
+			<ii>= 0: Off-line
+			<ii>= 1: UDP-HUB ON-Line  
+			<ii>= 2: Plugin Online 	(INJEKTOR /UDP MODE only)
+
+Config_registers[12] = fader bank slide 0x000innnn
+			< i > 1/0=up/down, 
+			<nnnn> lsb = slave number (0b00, 0b01, 0b10, 0b11)
+
+Config_registers[13] = LSB0-1=Group_focus for bank slide LSB 2-3 =group mask
+Config_registers[14] = Automation status switch Toggle modes
+	(automation Rehears mode on Config_registers[14] bit 6 can be uses for live trim)
+
+Config_registers[15] = System size (bank count) (MAX SLAVE NUMBER +1)
+Config_registers[16] = VIRTUAL GROUP BANK LOCATION
+Config_registers[17] = Systeme status/Utility flags. 0b0000nnnn 
+			<nnnn>=0001b: Trigger save to eeprom flag
+			<nnnn>=0010b: USBSENS
+			<nnnn>=0100b: USB CONFIGURED
+			<nnnn>=1000b: DAW FLAG ONLINE 
+
+Config_registers[18] = MASTER1 System_size.
+Config_registers[18] = MASTER2 System_size.
+Config_registers[19] = MASTER3 System_size.
+
+Config_registers[20] = Lock track state.
+Config_registers[21] = Master Fader interface channel number <0:95>
+Config_registers[22] = Automation modifier modes (snap/ rehears, write on stop)  
+
+Config_registers[23] = Motor fader mode 0x0000nnnn
+			<nnnn>=0001b: SET FORCE VCA MODE;
+			<nnnn>=0010b: SET VIRTUAL MOTOR OFF MODE; (MOTOR ON:1)
+			<nnnn>=0100b: SET SET GROUP ACTIVE MODE;
+			<nnnn>=1000b: SET REMOTE FROM GROUP MODE 
+		
+Config_registers[24] = level match : 0x0000000n
+			<n>=0: OFF
+			<n>=1: 0N
+Config_registers[25] = moving fader setup mode register
+
+Config_registers[26] = group and link modes 
+						0x00=off 
+						0x01=group create
+						0x02=link create 
+						0x04=stereo link create
+
+Config_registers[27] = 
+
+Config_registers[28] = Code number for Sub system firmware version.
+Config_registers[29] = 0x1000=MasterVersion 0x2000=Slaves, 0x3000.
+Config_registers[30] = CommVersion.
+Config_registers[31] = Reserved for external software and plug-ins heartbeat
+
+Config_registers[40]/[41] = Slave Firmware version MSB/LSB
+Config_registers[42]/[43] = Master Firmware versionMSB/LSB
+Config_registers[44]/[45] = Comm Firmware version MSB/LSB
+Config_registers[46]/[47] = KBD Firmware version MSB/LSB
+Config_registers[48]/[49] = Reserved Exp #1 MSB/LSB
+Config_registers[63] = RESET request
+
+
+
+SWITCH STATES AND COMMANDS
+
+ messages de "file manager" switch 1er rang
+----------------------------------------------------------------------------------------------------------------------------
+0x10:
+0x11:
+0x12:
+0x13:
+0x14:
+0x15:
+	
+messages d'automation et mix controle 
+----------------------------------------------------------------------------------------------------------------------------
+0x20: MIX ON-OFF
+0x21: LEVEL MATCH
+0x22: FADER MASTER STATUS MODE SELECT 
+0x23: CONFIG_REG[14] Upper nibble
+0x24: NOP
+0x25: SEND REAPER COMMAND
+0x26: NOP
+0x27: NOP
+0x28: NOP
+0x29: Track Lock states:
+0x2a: Automation Snap mode : config_reg[22](0x80)
+0x2b: Automatino Rehearse : config_reg[22](0x40)
+0x2c: Write on Stop : config_reg[22](0x20)
+0x2d: NOP
+0x2e: NOP
+0x2f: NOP
+
+REAPER COMMANDS
+----------------------------------------------------------------------------------------------------------------------------
+0x30: SEND REAPER COMMAND (0x10)
+0x31: SEND REAPER COMMAND (0x11)
+0x32: SEND REAPER COMMAND (0x12)
+0x33: SEND REAPER COMMAND (0x13)
+0x34: SEND REAPER COMMAND (0x34)
+0x35: SEND REAPER COMMAND (0x35)
+0x36: SEND REAPER COMMAND (0x36)
+0x37: SEND REAPER COMMAND (0x37)//Automation write from START
+0x38: SEND REAPER COMMAND (0x38)//Automation write from HERE
+0x39: SEND REAPER COMMAND (0x39)//Automation write To HERE
+0x3a: SEND REAPER COMMAND (0x3a)//Automation write to END
+0x3b: SEND REAPER COMMAND (0x3b)//JOIN
+0x3c: NOP
+0x3d: NOP
+0x3e: NOP
+0x3f: EXECUTE CODE
+
+RECALL RANGE 0x40<>0x4f
+----------------------------------------------------------------------------------------------------------------------------
+0x40:  	RecalliT Channel select UP
+0x41: 	RecalliT Channel select DOWN
+0x42: 	RecalliT Channel select 
+0x43: 	Bank UP
+0x44:	Bank DOWN
+0x45:	Section bank section change
+0x46:	NOP 
+0x47:	NOP 
+0x48:	NOP 
+0x49:	NOP 
+0x4a:	NOP 
+0x4b:	NOP 
+0x4c:	NOP 
+0x4d:	NOP 
+0x4e:	NOP 
+0x4f:	NOP 
+
+
+0x50 a 0x5f Messages de CONFIG ----------------------------------------------------------------------------------------------------------------------------
+0x50:	Set protocole 0= HUI 1/ HUI Hybrid 2=REAPER 3=UDP PLUGIN
+0x51:	SET FADER SCALE = config_register[9]
+0x52:	FREE
+0x53:	SET ON WRITE-AFTER STOP = config_register[7]
+0x54:	SET VCA #8/MASTER RELAY MODE = config_register[8]
+0x55:	Set Master fader channel to TAI input number
+0x56:	SET VIRTUAL VCA BANK LOCATION = config_register[16]
+0x57:	SetSSL faders and mutes on/off
+0x58:	PVCA COUNT AND BANK LOCATION
+0x59:	FREE
+0x5a:	Request FirmeWare versions
+0x5d: 	Refresh fader and state
+0x5e:	Config registers request
+0x5f:	Config registers Save to eeprom
+
+
+0x60 a 0x6f Messages de Controle du TAI
+----------------------------------------------------------------------------------------------------------------------------
+0x60:	External Global Automation Change mode from RASP
+0x61:	External Master fader Automation mode change from RASP
+0x62:	External Partial Individual Automation mode change from RASP
+0x63:	External Individual Automation mode change from RASP
+0x6c:	SET FORCE VCA MODE
+0x6d:	SET GLOBAL: MOTOR OFF MODE "VIRTUAL..."
+0x6e:	SET GROUP ACTIVE MODE 
+0x6f:	SET REMOTE FROM GROUP MODE
+
+0x70 a 0x7f Messages de setup et Controle du TAI
+--------------------------------------------------------------------------------------------
+0x70:	Trigger MF calibrate mode 
+0x71:	Trigger MF Scale Adjust Top = 0 / Bottom = 1024 
+0x72:	Trigger MF VCA VS FADER balance
+0x73:	Changer la valeur du lag buffer 
+0x74:	Trigger Fader pattern: Square 
+0x75:	Do fader offest scan sequence Config_registers[35]
+0x76:	Enable disable fader motor offest Config_registers[36]
+0x77:	kill fader  Config_registers[37] 
+0x7c:	GotoBootloadFlag=0;
+0x7d:	Armer pour goto bootloader
+0x7e:	GotoBootloadFlag==1)
+0x7f:	Trigger pour un RESET
+
+
+0x80 a 0x8f messages de recallit
+--------------------------------------------------------------------------------------------
+0x80:	Trigger pour un stop Recalliy
+0x81:	Trigger pour Strip RecalliT update 
+0x82:	Trigger pour un BANK RecalliT Update
+0x83:	RecalliT Snapshot Trigger
+0x84:	Trigger pour un snapshot en mode Calibrate (peut etre libieré)
+

@@ -1,0 +1,17 @@
+Change log
+
+Version V1_0_2 Date:2020-10-08
+
+
+************************************************************
+Version V1_0_1 Date:2020-09-29
+* Added bootloader fonctionnallity
+	->Added reset COMMAND IDs and function
+	->Added passtrue COMMAND IDs
+	->modified files:
+		bootload.c
+		bootload.h
+		TAI_FF_Versionner.h
+		TAI_FF_power_comm_Message_central_manager_V2_0_5_passthrue_msg_added_15_11_2019.c
+
+----------------------------------------------------
